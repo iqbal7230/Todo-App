@@ -3,8 +3,9 @@
 
 - [x] Add task
 - [x] Fetch tasks
-- [ ] Remove task
-- [ ] Edit task
+- [x] Delete task
+- [x] Mark as completed
+- [] Edit task
 
 <h2>Instructions</h2>
 
@@ -17,25 +18,21 @@ To use the To-Do app, follow these steps:
 
 2. Install the dependencies:
     ```
+    cd backend
     npm install
+    node index.js
     ```
 
-3. Start the development server:
+3. Start the development server(running frontend):
     ```
-    npm start
+    cd frontend
+    npm install
+    npm run dev
     ```
 
-4. Open your browser and navigate to `http://localhost:3000`.
+Open your browser and navigate to url.
 
-5. Add tasks by entering the task details in the input field and clicking the "Add a Task" button.
-
-6. Fetch tasks by clicking the "Fetch Tasks" button. The tasks will be displayed in a list.
-
-7. To remove a task, click the "Remove" button next to the task.
-
-8. To edit a task, click the "Edit" button next to the task and make the necessary changes.
-
-9. Enjoy using the To-Do app!
+Enjoy using the To-Do app!
 
 <h2>Contributing</h2>
 
@@ -45,3 +42,4 @@ Contributions are welcome! If you have any ideas or suggestions, please open an 
 <h2>License</h2>
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
+
