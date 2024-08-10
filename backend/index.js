@@ -8,7 +8,7 @@ const app = express()
 app.use(cors())
 
 app.use(express.json())
-let id = 0;
+
 
 app.post('/todo', async (req, res) => {
     const data = req.body;
@@ -24,14 +24,14 @@ app.post('/todo', async (req, res) => {
         title: data.title,
         description: data.description,
         completed: false,
-        id: id++
+        
     })
     res.status(200).json({
         msg: 'Todo created successfully'
     })
 })
 
-app.get('/todo', async (req, res) => {
+app.get('/todos', async (req, res) => {
     const todos = await todo.find()
 
     res.json({
@@ -47,6 +47,7 @@ app.put('/completed', async (req, res) => {
         res.status(411).json({
             msg: 'you have sent wrong input'
         })
+        return;
     }
     await todo.updateOne({
         _id: req.body.id
@@ -58,15 +59,29 @@ app.put('/completed', async (req, res) => {
         msg: 'Todo updated successfully'
     })
 })
-app.delete('/todo', async (req, res) => {
-    const deleteData = req.body;
-    await todo.deleteOne({  
-        id: deleteData.id
-    })
-    res.status(200).json({
-        msg: 'Todo deleted successfully'
-    })
-})
+app.delete('/todos/:id', async (req, res) => {
+    const todoId = req.params.id;
+
+    try {
+        const result = await todo.findByIdAndDelete(todoId);
+        
+        if (!result) {
+            return res.status(404).json({
+                msg: 'Todo not found'
+            });
+        }
+
+        res.status(200).json({
+            msg: 'Todo deleted successfully'
+        });
+    } catch (error) {
+        console.error('Error deleting todo:', error);
+        res.status(500).json({
+            msg: 'Internal server error'
+        });
+    }
+});
+
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000')

@@ -1,41 +1,54 @@
 import { useState } from "react";
 
-export function CreateTodo(props) {
-    // react-query
+export function CreateTodo() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
-    return <div className="border-4 m-5 p-10"> 
-        <h1 className="text-2xl text-center mb-3 font-bold">Create a new todo</h1>
-        <input className="border-2 border-black rounded-md m-2 p-2  " type="text" placeholder="title" onChange={function (e) {
-            const value = e.target.value;
-            setTitle(e.target.value);
-        }}></input>
-        <br />
+    return (
+        <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg border border-gray-200 p-6 mt-10">
+            <h1 className="text-2xl text-center mb-5 font-bold text-gray-700">Create a New Todo</h1>
+            
+            <div className="mb-4">
+                <input
+                    className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    type="text"
+                    placeholder="Enter title"
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+            </div>
 
-        <input className="border-2 border-black rounded-md m-2 mt-3 p-2 "
-            type="text" placeholder="description" onChange={function (e) {
-                const value = e.target.value;
-                setDescription(e.target.value);
-            }}></input> <br />
+            <div className="mb-4">
+                <textarea
+                    className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Enter description"
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={4}
+                />
+            </div>
 
-        <button className="bg-sky-500 hover:bg-sky-700 rounded-full p-2 pl-2 pt-2 mt-9" onClick={() => {
-            // axios
-            fetch("http://localhost:3000/todo", {
-                method: "POST",
-                body: JSON.stringify({
-                    title: title,
-                    description: description
-                }),
-                headers: {
-                    "Content-type": "application/json"
-                }
-            })
-                .then(async function (res) {
-                    const json = await res.json();
-                    alert("Todo added");
-                })
-        }}>Add a todo</button>
-        
-    </div>
+            <div className="text-center">
+                <button
+                    className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+                    onClick={() => {
+                        fetch("http://localhost:3000/todo", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                title,
+                                description,
+                            }),
+                            headers: {
+                                "Content-type": "application/json"
+                            }
+                        })
+                            .then(async (res) => {
+                                const json = await res.json();
+                                alert("Todo added");
+                            });
+                    }}
+                >
+                    Add Todo
+                </button>
+            </div>
+        </div>
+    );
 }
